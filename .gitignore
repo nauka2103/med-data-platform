@@ -1,0 +1,49 @@
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+service-account*.json
+
+# Runtime records, source documents and databases
+.local-data/
+data/
+uploads/
+storage/
+*.sqlite
+*.sqlite3
+*.sqlite3-*
+*.db
+*.db-*
+
+# Python environments and caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# JavaScript dependencies, generated builds and test output
+node_modules/
+dist/
+build/
+coverage/
+playwright-report/
+test-results/
+
+# Operating system and editor files
+.DS_Store
+._*
+.idea/
+.vscode/
+*.swp
+*.swo
+*.log
