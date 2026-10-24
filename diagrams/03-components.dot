@@ -1,0 +1,68 @@
+digraph Components {
+  graph [layout=dot, rankdir=TB, bgcolor="white", pad="0.45", nodesep="0.45", ranksep="0.7", splines=polyline,
+    fontname="Arial", fontsize=23, fontcolor="#142D4E", labelloc=t, labeljust=l, compound=true,
+    label="03 / COMPONENTS AND EXECUTION BOUNDARIES\nIntelligent Medical Platform | MDP-6\n "];
+  node [shape=component, style=filled, fontname="Arial", fontsize=12, color="#8FAAC5", fillcolor="#F1F7FC",
+    fontcolor="#142D4E", margin="0.22,0.16", penwidth=1.3];
+  edge [fontname="Arial", fontsize=10, color="#346C9B", fontcolor="#3F5671", penwidth=1.2, arrowsize=0.7];
+
+  subgraph cluster_clients {
+    label="CLIENTS | untrusted authorization boundary"; fontsize=14; color="#C3CFDD"; style=rounded; margin=20;
+    web [label="React + TypeScript\nPatient / Doctor / Laboratory / Admin"];
+    mobile [label="React Native + Expo\nPatient workflows"];
+  }
+
+  subgraph cluster_api {
+    label="FASTAPI API PROCESS"; labeljust=r; fontsize=14; color="#428C80"; style=rounded; margin=22;
+    policy [label="HTTP, session and access boundary\nSchemas; active account; revocation\nRole + patient / batch assignment\nAudit before protected response / commit", fillcolor="#E8F4F2", color="#64A99C"];
+    records [label="Record and administration modules\nDashboard; labs / flags / charts\nVisits / prescriptions; roles / assignments\nBatch confirmation + read-only audit UI"];
+    documents [label="Document and source module\nContent / size / page validation\nUpload; job polling; authorized sources\nAI labels / citations; error reports"];
+    dispatch [label="Dispatch and recovery component\nPersisted dispatch outbox\nEnqueue reconciliation; retry bounds\nExpired / interrupted job recovery"];
+    policy -> records [label="I2"];
+    policy -> documents [label="I2"];
+    documents -> dispatch [label="I4"];
+  }
+
+  subgraph cluster_worker {
+    label="RQ WORKER PROCESS | one active job initially"; fontsize=14; color="#428C80"; style=rounded; margin=22;
+    worker [label="Job orchestrator\nLoad job ID; recheck access scope\nClaim attempt; enforce 120 s limit\nAudit + guarded final publication", fillcolor="#E8F4F2", color="#64A99C"];
+    extract [label="Text / field extraction\npypdf; rasterizer + Tesseract 5\nPages / spans; optional OCR boxes\nLab fields remain drafts"];
+    summary [label="Retrieval and summary pipeline\nPatient-scoped source retrieval\nVersioned schema + item citations\nFact / unit / date consistency gate"];
+    worker -> extract [label="I6"];
+    worker -> summary [label="I6"];
+  }
+
+  repositories [label="Persistence and audit adapters\nScoped repositories; transactions\nDurable audit; private file access\nShared code inside API / worker",
+    fillcolor="#E8F4F2", color="#64A99C"];
+
+  subgraph cluster_storage {
+    label="PRIVATE PERSISTENT STORAGE | no direct client access"; labelloc=b; fontsize=14; color="#94A9BF"; style=rounded; margin=20;
+    db [shape=cylinder, label="PostgreSQL | authoritative state\nAccounts / assignments; clinical records\nDocuments / text / drafts / summaries\nJobs / attempts / outbox; audit metadata",
+      fillcolor="#EAF0F8", color="#6C88AD"];
+    files [shape=folder, label="Private document volume\nStaged uploads; retained originals\nChecksum + storage key in PostgreSQL",
+      fillcolor="#EAF0F8", color="#6C88AD"];
+    queue [shape=box, style="rounded,filled", label="Valkey | RQ queue\nJob identifiers; persistent broker data\nQueue is not the clinical record",
+      fillcolor="#EAF0F8", color="#6C88AD"];
+  }
+
+  model [shape=box, style="rounded,filled,dashed", color="#B58536", fillcolor="#FFF5E4",
+    label="Configured language model\nExternal service OR local inference\nMinimum authorized synthetic context\nModel / version recorded per output"];
+
+  web -> policy [label="I1 | HTTPS"];
+  mobile -> policy [label="I1 | HTTPS"];
+  dispatch -> queue [label="I5 | enqueue ID"];
+  worker -> queue [label="I5 | reserve ID", color="#70849B"];
+  records -> repositories [label="I3"];
+  documents -> repositories [label="I3"];
+  dispatch -> repositories [label="I3 / I4"];
+  worker -> repositories [label="I3 / I8"];
+  repositories -> db [label="SQL / transactions", style=dashed, color="#70849B"];
+  repositories -> files [label="stage / read / reconcile", style=dashed, color="#70849B"];
+  summary -> model [label="I7 | model call", color="#B58536", fontcolor="#88601F"];
+
+  legend [shape=plain, style="", fontsize=11, fontcolor="#55708C",
+    label="Arrow: caller -> dependency; returns are implicit. Dashed gray: persistence access.\nI1-I8: interface contracts in docs/04-architecture.md. Shared adapters are code, not a service.\nAll cross-host links use TLS; API and worker recheck authorization.\nDocker Compose: web, API, worker, PostgreSQL, Valkey and persistent volumes; mobile is separate."];
+  db -> legend [style=invis];
+  files -> legend [style=invis];
+  queue -> legend [style=invis];
+}

@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark"><title>Personal health record · MedData</title>
+<link rel="stylesheet" href="../wireframes.css"><script src="../wireframes.js" defer></script></head>
+<body data-workspace="patient" data-assets="../">
+<div class="app-shell"><aside class="sidebar"><a class="brand" href="#overview"><span class="brand-icon">m<span>+</span></span><strong>MedData</strong></a><p class="workspace-label">Personal health record</p><nav id="navigation" aria-label="Main navigation"></nav><div class="sidebar-foot"><span class="local-dot"></span><span>Stored on this device</span></div></aside>
+<div class="page-column"><header class="topbar"><span id="breadcrumb">Overview</span><div class="top-actions"><span class="workspace-chip">Personal workspace</span><button id="theme-toggle" class="icon-button" aria-label="Switch to dark theme"></button></div></header><aside class="medical-notice" aria-label="Medical disclaimer"><strong>Not a medical service.</strong><span>We are not doctors. MedData does not provide medical conclusions, diagnoses or treatment advice. Automatically extracted information may contain errors; verify it against the original document and consult a qualified healthcare professional.</span><span class="responsibility">We do not assume responsibility for medical decisions made on the basis of this information.</span></aside><main id="content" aria-live="polite"></main><footer><span>MedData</span><span>For information only. Not medical advice.</span></footer></div></div>
+<div id="notice" class="notice" role="status"></div>
+<dialog id="dialog"><div class="dialog-head"><h2 id="dialog-title"></h2><button id="close-dialog" class="icon-button" aria-label="Close dialog">×</button></div><div id="dialog-body"></div></dialog>
+<input type="file" id="file-input" accept="application/pdf,image/jpeg,image/png" multiple hidden>
+<input type="file" id="camera-input" accept="image/*" capture="environment" hidden>
+</body></html>

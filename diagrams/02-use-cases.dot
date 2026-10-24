@@ -1,0 +1,54 @@
+digraph UseCases {
+  graph [layout=dot, rankdir=LR, bgcolor="white", pad="0.4", nodesep="0.32", ranksep="0.85", splines=polyline,
+    fontname="Arial", fontsize=23, fontcolor="#142D4E", labelloc=t, labeljust=l, compound=true,
+    label=<<TABLE BORDER="0" CELLBORDER="0" CELLPADDING="5"><TR><TD ALIGN="LEFT"><FONT POINT-SIZE="23">02 / USE CASES</FONT></TD></TR><TR><TD ALIGN="LEFT"><FONT POINT-SIZE="17">Intelligent Medical Platform | MDP-6</FONT></TD></TR><TR><TD ALIGN="LEFT"><FONT POINT-SIZE="11">Lines: participation. Hollow triangles: actor generalization. Blue: Must; amber: Should; dashed: Could.</FONT></TD></TR><TR><TD ALIGN="LEFT"><FONT POINT-SIZE="11">Protected use cases require an active session and record-level authorization. Clinical reader is not a stored role.</FONT></TD></TR></TABLE>>];
+  node [fontname="Arial", fontsize=12, color="#C3CFDD", fillcolor="#F3F6FA", fontcolor="#142D4E", penwidth=1.2, margin="0.18,0.12"];
+  edge [fontname="Arial", fontsize=10, color="#70849B", fontcolor="#55708C", penwidth=1.1, arrowsize=0.85];
+
+  visitor [shape=box, style="rounded,filled", label="<<actor>>\nProspective patient"];
+  account [shape=box, style="rounded,filled", label="<<actor>>\nAccount user\nAny role; session access"];
+  patient [shape=box, style="rounded,filled", label="<<actor>>\nPatient\nOwn record; web + mobile"];
+  doctor [shape=box, style="rounded,filled", label="<<actor>>\nDoctor\nAssigned patients; web"];
+  clinical [shape=box, style="rounded,filled", label="<<abstract actor>>\nClinical reader\nPatient or assigned Doctor", fillcolor="#E8F4F2", color="#64A99C"];
+  laboratory [shape=box, style="rounded,filled", label="<<actor>>\nLaboratory staff\nAssigned batches; web"];
+  administrator [shape=box, style="rounded,filled", label="<<actor>>\nAdministrator\nManagement only; web"];
+
+  subgraph cluster_platform {
+    label="Intelligent Medical Platform"; labelloc=t; labeljust=l; fontsize=16;
+    color="#94A9BF"; penwidth=1.5; style=rounded; margin=24;
+    node [shape=ellipse, style=filled, fillcolor="#F1F7FC", color="#8FAAC5"];
+    uc01 [label="UC-01 | Register patient account\n[Must] FR-AUTH-1"];
+    uc02 [label="UC-02 | Manage session\n[Must] FR-AUTH-1"];
+    uc03 [label="UC-03 | Review patient record\n[Must] FR-PAT-1"];
+    uc04 [label="UC-04 | Inspect laboratory history / chart\n[Must] FR-LAB-2, FR-LAB-3"];
+    uc05 [label="UC-05 | Upload document and track job\n[Must] FR-DOC-1"];
+    uc06 [label="UC-06 | Read labelled summary / evidence\n[Must] FR-SUM-1, FR-SUM-2, FR-SUM-3"];
+    uc07 [label="UC-07 | Report summary error\n[Should] FR-SUM-4", fillcolor="#FFF6E8", color="#C69B54"];
+    uc08 [label="UC-08 | Prepare and record a visit\n[Should] FR-DASH-2, FR-PAT-2", fillcolor="#FFF6E8", color="#C69B54"];
+    uc09 [label="UC-09 | Prepare and confirm lab batch\n[Must] FR-LAB-1\nFile extraction support: [Should] FR-DOC-2"];
+    uc10 [label="UC-10 | Manage accounts / assignments\n[Must] FR-ADM-1"];
+    uc11 [label="UC-11 | Inspect audit metadata\n[Must] FR-ADM-1, NFR-AUD-1"];
+    uc12 [label="UC-12 | Export own record sections\n[Could] FR-EXP-1", style="filled,dashed", fillcolor="#FFFFFF", color="#AAB6C4"];
+    uc13 [label="UC-13 | Inspect trend alerts\n[Should] FR-LAB-4", fillcolor="#FFF6E8", color="#C69B54"];
+    uc14 [label="UC-14 | Review patient dashboard\n[Must] FR-DASH-1"];
+  }
+
+  // Solid undirected lines are associations, not a sequence of execution.
+  visitor -> uc01 [dir=none];
+  account -> uc02 [dir=none];
+  patient -> clinical [arrowhead=empty, color="#258574", label="inherits"];
+  doctor -> clinical [arrowhead=empty, color="#258574", label="inherits"];
+  clinical -> uc03 [dir=none];
+  clinical -> uc04 [dir=none];
+  clinical -> uc05 [dir=none];
+  clinical -> uc06 [dir=none];
+  clinical -> uc07 [dir=none];
+  clinical -> uc13 [dir=none];
+  patient -> uc14 [dir=none];
+  patient -> uc12 [dir=none, style=dashed];
+  doctor -> uc08 [dir=none];
+  laboratory -> uc09 [dir=none];
+  administrator -> uc10 [dir=none];
+  administrator -> uc11 [dir=none];
+
+}
