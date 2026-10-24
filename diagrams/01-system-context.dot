@@ -1,0 +1,31 @@
+digraph SystemContext {
+  graph [layout=dot, rankdir=LR, bgcolor="white", pad="0.45", nodesep="0.42", ranksep="1.0", splines=polyline,
+    fontname="Arial", fontsize=23, fontcolor="#142D4E", labelloc=t, labeljust=l,
+    label="01 / SYSTEM CONTEXT\nIntelligent Medical Platform | MDP-6\n "];
+  node [shape=box, style="rounded,filled", fontname="Arial", fontsize=13, color="#C3CFDD", fillcolor="#F3F6FA",
+    fontcolor="#142D4E", margin="0.22,0.17", penwidth=1.3];
+  edge [fontname="Arial", fontsize=11, color="#55708C", fontcolor="#3F5671", penwidth=1.2, arrowsize=0.7];
+
+  visitor [label="UNAUTHENTICATED USER\nRegister a Patient account; sign in"];
+  patient [label="PATIENT\nOwn record and documents\nWeb + mobile"];
+  doctor [label="DOCTOR\nAssigned patients only\nWeb"];
+  laboratory [label="LABORATORY STAFF\nAssigned patients; submitted batches only\nWeb"];
+  administrator [label="ADMINISTRATOR\nAccounts, assignments and audit metadata\nWeb; no implicit clinical access"];
+
+  platform [label="INTELLIGENT MEDICAL PLATFORM\n\nConsolidated patient records\nLaboratory drafts, confirmation and charts\nDocument extraction and grounded summaries\nShared API, web and mobile applications\n\nSynthetic data only; no autonomous diagnosis",
+    color="#173D65", fillcolor="#173D65", fontcolor="white", fontsize=15, margin="0.35,0.3", penwidth=2];
+
+  model [label="CONFIGURED LANGUAGE MODEL\nExternal service OR local inference\nProvider/model selected during implementation\n\nReceives minimum authorized synthetic context\nReturns candidate structured summary",
+    style="rounded,filled,dashed", color="#B58536", fillcolor="#FFF5E4"];
+
+  visitor -> platform [dir=both, label="Registration / credentials\nAccount / session or validation error"];
+  patient -> platform [dir=both, label="Own uploads and requests\nRecords, status, summaries and cited sources"];
+  doctor -> platform [dir=both, label="Assigned-record requests / clinical entries\nAuthorized record and source responses"];
+  laboratory -> platform [dir=both, label="Assigned batch entry / file / confirmation\nBatch draft, status and publication result"];
+  administrator -> platform [dir=both, label="Account / role / assignment changes\nManagement results and audit metadata"];
+  platform -> model [dir=both, label="Authorized context / candidate output\nCandidate must pass publication gates", color="#B58536", fontcolor="#88601F"];
+
+  legend [shape=plain, style="", fontsize=11, fontcolor="#55708C",
+    label="Bidirectional lines: request and response exchanges.\nDashed amber box: configurable inference dependency.\nClinical access is enforced by the platform on every request."];
+  platform -> legend [style=invis];
+}

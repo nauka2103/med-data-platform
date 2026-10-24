@@ -9,6 +9,7 @@ The root [README](../README.md) is the entry point for setup, configuration, ver
 | Location | Contents and ownership boundary |
 | --- | --- |
 | `docs/` | Versioned engineering documents. Preserve existing numbered filenames and requirement IDs; add descriptive names for repository guidance. |
+| `diagrams/` | Architecture DOT sources and tracked PNG/SVG renders. |
 | `mockups/` | Existing HTML/CSS/JavaScript local workspace and its launch instructions. The name is retained to preserve links and commands. |
 | `mockups/mobile/` | Responsive patient web entry; not a native mobile project. |
 | `mockups/service/` | Python loopback HTTP service and Swift OCR/PDF helper source. |
@@ -22,7 +23,7 @@ The service defaults to runtime storage outside the checkout at `~/Library/Appli
 
 The proposal describes FastAPI, PostgreSQL, a React/TypeScript web client, a React Native/Expo client, Python ML services and Docker Compose. These components are not scaffolded by this documentation task. Add their source directories, dependency manifests, environment examples and runnable commands together when their implementation tasks begin, updating the root tree in the same change. Do not present empty directories or speculative commands as a working deployment.
 
-Research, technology and architecture documents currently live on separate feature branches. Consolidation requires an explicit integration change; the root tree only describes files present in this branch.
+The pre-defense integration candidate includes research, technology and architecture documents together with requirements, UX and evaluation material. Original feature branches remain provenance records. Historical branch links inside the imported documents refer to those original snapshots. The submission record tracks the review and tag gates; presence in this checkout does not establish review approval.
 
 ## Configuration and data handling
 
