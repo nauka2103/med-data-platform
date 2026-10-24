@@ -6,7 +6,7 @@
 | Team | Yerkin Yerassyl; Nauryzbay Nurkassymov; Asylzhan Bakytzhan |
 | Work item | [MDP-5 — Requirements specification with acceptance criteria](https://nauka11.youtrack.cloud/issue/MDP-5) |
 | Milestone | M1 pre-defense-1; 24 October 2026 |
-| Document date | 23 October 2026 |
+| Document date | 24 October 2026 |
 | Baseline | [Project proposal and scope](01-proposal.md), MDP-1 |
 
 This specification defines the functional requirements (FR), non-functional requirements (NFR), priorities and acceptance criteria for the completed diploma prototype. M1 delivers the specification; application implementation and measured results follow in later milestones. A requirement listed here is an acceptance obligation, not a claim that its implementation has passed.
@@ -251,3 +251,18 @@ The proposal outcomes map to requirements as follows:
 The following are Won't for this release: autonomous diagnosis or treatment recommendations; real patient data; production hospital/laboratory integration or full FHIR conformance; billing, appointment booking and telemedicine; medical-device certification or clinical-effectiveness claims; training a general-purpose medical language model from scratch. Full doctor and laboratory workflows on mobile and Kazakh localization are also deferred. Source-recorded diagnoses and prescriptions may be displayed as records, with attribution, without generating new clinical decisions.
 
 Architecture (MDP-6), wireframes (MDP-7) and verification planning (MDP-8) should reference these requirement IDs. Any change to scope, priority, access rules, numeric targets or fixtures must record its rationale, affected requirements and reviewer decision in the relevant YouTrack task and repository review. Findings from MDP-12 inform revisions only after they have actually been collected.
+
+
+## 8. MDP-12 research clarifications
+
+Work item: [MDP-12](https://nauka11.youtrack.cloud/issue/MDP-12). Register date: 24 October 2026. Source: [simulated interview report](11-user-interviews.md), H01–H06. These are provisional design refinements generated from fictional scenarios, not collected interview findings or approved changes to the acceptance baseline. Existing requirement priorities, access boundaries, limits and quantitative targets remain authoritative. Candidate checks below become acceptance obligations only after a recorded review decision.
+
+| ID | Existing requirements | Provisional clarification / candidate check | Basis and disposition |
+| --- | --- | --- | --- |
+| RC12-01 | FR-LAB-2, FR-LAB-3, FR-DASH-1 | Keep analyte, value, unit and measurement date available together in the result view. Show the supplied reference limits or explicit absence; do not infer limits. Check one synthetic result with a range and one without on web and mobile. | H01; restates existing data context, awaiting participant validation. |
+| RC12-02 | FR-LAB-3, FR-DASH-1 | Distinguish no recorded history, no matching results in the selected date interval and a retrieval error. For a patient with results outside the interval, retain the active filter and allow changing it; do not present a retrieval error as empty history. Check all three states against fixed fixtures. | H02; candidate refinement of existing empty/error states. |
+| RC12-03 | FR-DOC-1, FR-DOC-2 | In extraction review, display missing required fields explicitly and keep source access available. Refresh must retain the stable document/job association and terminal failure reason. Check a missing unit, missing date and failed job without substituting plausible values. | H03; retains existing missing-data and job-state rules. |
+| RC12-04 | FR-SUM-3, FR-UI-1 | After opening a summary item's evidence, provide a way back to the same document's summary. The AI label and document identity remain unambiguous. Check source opening and return on both patient clients with the same synthetic record. | H04; candidate navigation clarification, with no implied summary-quality result. |
+| RC12-05 | FR-LAB-1, FR-DOC-2 | After a successful batch confirmation, show the published state associated with the stable batch ID. Replaying confirmation must retain the same published records and avoid duplicate success entries. Check initial confirmation, refresh and replay using a single synthetic batch. | H06; candidate feedback clarification of existing publication/idempotency rules. |
+
+Validation requires actual interview notes and a review decision for each accepted refinement. Record contradictory evidence as well as supportive evidence. A simulation cannot justify changing requirement priority, claiming user endorsement or marking an application criterion passed.
