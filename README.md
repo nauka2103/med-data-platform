@@ -83,6 +83,7 @@ The host is fixed to `127.0.0.1`. The current service does not support database 
 │   ├── 06-requirements.md
 │   ├── 08-ux-wireframes.md
 │   ├── 09-verification-evaluation-plan.md
+│   ├── 10-supervisor-review.md
 │   └── repository-guide.md        # Directory ownership and growth rules
 └── mockups/
     ├── README.md
@@ -110,6 +111,7 @@ This tree describes this branch. Research and architecture deliverables are also
 | [Requirements](docs/06-requirements.md) | Functional/non-functional requirements, priorities and acceptance criteria. |
 | [UX wireframes](docs/08-ux-wireframes.md) | Interfaces, scenarios and implementation boundaries. |
 | [Verification and evaluation plan](docs/09-verification-evaluation-plan.md) | Fixed evaluation procedures, baselines and evidence requirements. |
+| [M1 deliverable review](docs/10-supervisor-review.md) | Frozen deliverables, generated findings, recommended decisions and follow-up tasks. |
 | [Local workspace](mockups/README.md) | Upload, review, storage and browser checks. |
 | [Repository guide](docs/repository-guide.md) | Source layout, generated artifacts and configuration policy. |
 | [Contribution workflow](CONTRIBUTING.md) | Branches, identities, review and YouTrack commands. |
